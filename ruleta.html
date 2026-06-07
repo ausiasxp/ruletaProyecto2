@@ -9,9 +9,7 @@
 <h2>Ruleta diaria Proyecto Anti Parálisis</h2>
 
 <button id="spinBtn" onclick="spin()">Girar ruleta</button>
-<button onclick="toggleTestMode()">Modo prueba</button>
 
-<p id="mode"></p>
 <p id="result"></p>
 
 <script>
@@ -21,8 +19,6 @@ const options = [
   "Descansar / no decidir"
 ];
 
-let testMode = false;
-
 // Fecha de hoy
 function today() {
   return new Date().toISOString().split("T")[0];
@@ -30,8 +26,6 @@ function today() {
 
 // Puede girar?
 function canSpin() {
-  if (testMode) return true;
-
   const last = localStorage.getItem("lastSpinDate");
   return last !== today();
 }
@@ -75,7 +69,8 @@ function spin() {
 
   const choice = options[Math.floor(Math.random() * options.length)];
 
-  document.getElementById("result").innerText = "Resultado: " + choice;
+  document.getElementById("result").innerText =
+    "Resultado: " + choice;
 
   saveResult(choice);
   markUsed();
@@ -83,24 +78,8 @@ function spin() {
   document.getElementById("spinBtn").disabled = true;
 }
 
-// Modo prueba ON/OFF
-function toggleTestMode() {
-  testMode = !testMode;
-
-  document.getElementById("mode").innerText =
-    testMode ? "🟡 Modo prueba ACTIVADO" : "🟢 Modo normal";
-
-  document.getElementById("spinBtn").disabled = false;
-}
-
-/*// Al cargar la página
-if (!canSpin()) {
-  showSavedState();
-}*/
-
-  renderOnLoad();
-
-  function renderOnLoad() {
+// Al cargar la página
+function renderOnLoad() {
   const saved = getSavedResult();
 
   if (saved) {
@@ -115,6 +94,8 @@ if (!canSpin()) {
     document.getElementById("spinBtn").disabled = true;
   }
 }
+
+renderOnLoad();
 </script>
 
 </body>
