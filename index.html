@@ -35,11 +35,20 @@ function markUsed() {
   localStorage.setItem("lastSpinDate", today());
 }
 
-// Ruleta simple
+// Guardar resultado
+function saveResult(result) {
+  localStorage.setItem("lastResult", result);
+}
+
+// Obtener resultado guardado
+function getSavedResult() {
+  return localStorage.getItem("lastResult");
+}
+
+// Ruleta
 function spin() {
   if (!canSpin()) {
-    document.getElementById("result").innerText =
-      "Ya has girado hoy. Vuelve mañana.";
+    showSavedState();
     return;
   }
 
@@ -47,16 +56,30 @@ function spin() {
 
   document.getElementById("result").innerText = "Resultado: " + choice;
 
+  saveResult(choice);
   markUsed();
 
   document.getElementById("spinBtn").disabled = true;
 }
 
-// Si ya se usó hoy, bloquear botón al cargar
-if (!canSpin()) {
+// Mostrar estado guardado
+function showSavedState() {
+  const saved = getSavedResult();
+
+  if (saved) {
+    document.getElementById("result").innerText =
+      "Resultado: " + saved + "\nYa has girado hoy. Vuelve mañana.";
+  } else {
+    document.getElementById("result").innerText =
+      "Ya has girado hoy. Vuelve mañana.";
+  }
+
   document.getElementById("spinBtn").disabled = true;
-  document.getElementById("result").innerText =
-    "Ya has girado hoy. Vuelve mañana.";
+}
+
+// Al cargar la página
+if (!canSpin()) {
+  showSavedState();
 }
 </script>
 
