@@ -97,6 +97,22 @@ function toggleTestMode() {
 if (!canSpin()) {
   showSavedState();
 }
+
+  function renderOnLoad() {
+  const saved = getSavedResult();
+
+  if (saved) {
+    document.getElementById("result").innerText =
+      "Resultado: " + saved;
+  }
+
+  if (!canSpin()) {
+    document.getElementById("result").innerText =
+      "Resultado: " + saved + "\nYa has girado hoy. Vuelve mañana.";
+
+    document.getElementById("spinBtn").disabled = true;
+  }
+}
 </script>
 
 </body>
