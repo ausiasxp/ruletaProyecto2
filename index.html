@@ -2,14 +2,16 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Ruleta diaria Proyecto Anti Paralisis</title>
+  <title>Ruleta diaria Proyecto Anti Parálisis</title>
 </head>
 <body>
 
 <h2>Ruleta diaria Proyecto</h2>
 
 <button id="spinBtn" onclick="spin()">Girar ruleta</button>
+<button onclick="toggleTestMode()">Modo prueba</button>
 
+<p id="mode"></p>
 <p id="result"></p>
 
 <script>
@@ -19,21 +21,25 @@ const options = [
   "Descansar / no decidir"
 ];
 
-// Obtener fecha de hoy (YYYY-MM-DD)
-/*function today() {
+let testMode = false;
+
+// Fecha de hoy
+function today() {
   return new Date().toISOString().split("T")[0];
 }
 
-// Comprobar si ya se usó hoy
+// Puede girar?
 function canSpin() {
+  if (testMode) return true;
+
   const last = localStorage.getItem("lastSpinDate");
   return last !== today();
 }
 
-// Guardar uso
+// Guardar fecha
 function markUsed() {
   localStorage.setItem("lastSpinDate", today());
-}*/
+}
 
 // Guardar resultado
 function saveResult(result) {
@@ -43,23 +49,6 @@ function saveResult(result) {
 // Obtener resultado guardado
 function getSavedResult() {
   return localStorage.getItem("lastResult");
-}
-
-// Ruleta
-/*function spin() {
-  if (!canSpin()) {
-    showSavedState();
-    return;
-  }*/
-
-  const choice = options[Math.floor(Math.random() * options.length)];
-
-  document.getElementById("result").innerText = "Resultado: " + choice;
-
-  saveResult(choice);
-  markUsed();
-
-  //document.getElementById("spinBtn").disabled = true;
 }
 
 // Mostrar estado guardado
@@ -74,13 +63,40 @@ function showSavedState() {
       "Ya has girado hoy. Vuelve mañana.";
   }
 
-  //document.getElementById("spinBtn").disabled = true;
+  document.getElementById("spinBtn").disabled = true;
+}
+
+// Girar ruleta
+function spin() {
+  if (!canSpin()) {
+    showSavedState();
+    return;
+  }
+
+  const choice = options[Math.floor(Math.random() * options.length)];
+
+  document.getElementById("result").innerText = "Resultado: " + choice;
+
+  saveResult(choice);
+  markUsed();
+
+  document.getElementById("spinBtn").disabled = true;
+}
+
+// Modo prueba ON/OFF
+function toggleTestMode() {
+  testMode = !testMode;
+
+  document.getElementById("mode").innerText =
+    testMode ? "🟡 Modo prueba ACTIVADO" : "🟢 Modo normal";
+
+  document.getElementById("spinBtn").disabled = false;
 }
 
 // Al cargar la página
-/*if (!canSpin()) {
+if (!canSpin()) {
   showSavedState();
-}*/
+}
 </script>
 
 </body>
