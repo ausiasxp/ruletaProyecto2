@@ -93,10 +93,12 @@ function toggleTestMode() {
   document.getElementById("spinBtn").disabled = false;
 }
 
-// Al cargar la página
+/*// Al cargar la página
 if (!canSpin()) {
   showSavedState();
-}
+}*/
+
+  renderOnLoad();
 
   function renderOnLoad() {
   const saved = getSavedResult();
