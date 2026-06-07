@@ -20,7 +20,7 @@ const options = [
 ];
 
 // Obtener fecha de hoy (YYYY-MM-DD)
-function today() {
+/*function today() {
   return new Date().toISOString().split("T")[0];
 }
 
@@ -33,7 +33,7 @@ function canSpin() {
 // Guardar uso
 function markUsed() {
   localStorage.setItem("lastSpinDate", today());
-}
+}*/
 
 // Guardar resultado
 function saveResult(result) {
@@ -46,11 +46,11 @@ function getSavedResult() {
 }
 
 // Ruleta
-function spin() {
+/*function spin() {
   if (!canSpin()) {
     showSavedState();
     return;
-  }
+  }*/
 
   const choice = options[Math.floor(Math.random() * options.length)];
 
@@ -78,9 +78,9 @@ function showSavedState() {
 }
 
 // Al cargar la página
-if (!canSpin()) {
+/*if (!canSpin()) {
   showSavedState();
-}
+}*/
 </script>
 
 </body>
