@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ruleta diaria Proyecto</title>
+</head>
+<body>
+
+<h2>Ruleta diaria Proyecto</h2>
+
+<button id="spinBtn" onclick="spin()">Girar ruleta</button>
+
+<p id="result"></p>
+
+<script>
+const options = [
+  "Continuar proyecto actual",
+  "Empezar nuevo proyecto",
+  "Descansar / no decidir"
+];
+
+// Obtener fecha de hoy (YYYY-MM-DD)
+function today() {
+  return new Date().toISOString().split("T")[0];
+}
+
+// Comprobar si ya se usó hoy
+function canSpin() {
+  const last = localStorage.getItem("lastSpinDate");
+  return last !== today();
+}
+
+// Guardar uso
+function markUsed() {
+  localStorage.setItem("lastSpinDate", today());
+}
+
+// Ruleta simple
+function spin() {
+  if (!canSpin()) {
+    document.getElementById("result").innerText =
+      "Ya has girado hoy. Vuelve mañana.";
+    return;
+  }
+
+  const choice = options[Math.floor(Math.random() * options.length)];
+
+  document.getElementById("result").innerText = "Resultado: " + choice;
+
+  markUsed();
+
+  document.getElementById("spinBtn").disabled = true;
+}
+
+// Si ya se usó hoy, bloquear botón al cargar
+if (!canSpin()) {
+  document.getElementById("spinBtn").disabled = true;
+  document.getElementById("result").innerText =
+    "Ya has girado hoy. Vuelve mañana.";
+}
+</script>
+
+</body>
+</html>
